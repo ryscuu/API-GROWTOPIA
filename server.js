@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const https = require('https');
 const { createClient } = require('@supabase/supabase-js');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
@@ -101,6 +100,7 @@ let latestModsCache = {
 // Function to fetch Live Mods from external API
 function fetchLiveModsData() {
     console.log('Fetching new mod data...');
+    const https = require('https');
     https.get('https://web-lilac-chi-57.vercel.app/api/mods', (response) => {
         let data = '';
 
@@ -142,6 +142,7 @@ let lastUpdateTimestamp = new Date().toISOString();
 
 // Function to fetch Live Data from Growtopia
 function fetchLiveGrowtopiaData() {
+    const https = require('https');
     console.log('Fetching new data from Growtopia...');
     https.get('https://growtopiagame.com/detail', (response) => {
         let data = '';
@@ -253,8 +254,8 @@ app.get('/api/stats', (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server is running on port ${PORT}`);
     fetchLiveGrowtopiaData(); // Initial live fetch on startup
     fetchLiveModsData(); // Initial mod fetch on startup
 });
